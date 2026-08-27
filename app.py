@@ -4,15 +4,28 @@ import numpy as np
 import pickle
 
 
-# Load saved files
-with open("loan_model.pkl", "rb") as file:
-    model = pickle.load(file)
+import os
 
-with open("scaler.pkl", "rb") as file:
-    scaler = pickle.load(file)
 
-with open("encoder.pkl", "rb") as file:
-    encoder = pickle.load(file)
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Load saved files with proper path handling
+try:
+    with open(os.path.join(current_dir, "loan_model.pkl"), "rb") as file:
+        model = pickle.load(file)
+
+    with open(os.path.join(current_dir, "scaler.pkl"), "rb") as file:
+        scaler = pickle.load(file)
+
+    with open(os.path.join(current_dir, "encoder.pkl"), "rb") as file:
+        encoder = pickle.load(file)
+except FileNotFoundError as e:
+    st.error(f"❌ Error: {e}")
+    st.error("Required model files (loan_model.pkl, scaler.pkl, encoder.pkl) not found. Please ensure they are in the same directory as app.py")
+    st.stop()
+
+
 
 
 # App title
