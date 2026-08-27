@@ -5,28 +5,31 @@ import pickle
 
 
 import os
-
-
 # Get the directory of the current script
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Load saved files with proper path handling
+# Load saved files with proper error handling
 try:
     with open(os.path.join(current_dir, "loan_model.pkl"), "rb") as file:
-        model = pickle.load(file)
+        model = pickle.load(file, encoding='latin1')
 
     with open(os.path.join(current_dir, "scaler.pkl"), "rb") as file:
-        scaler = pickle.load(file)
+        scaler = pickle.load(file, encoding='latin1')
 
     with open(os.path.join(current_dir, "encoder.pkl"), "rb") as file:
-        encoder = pickle.load(file)
+        encoder = pickle.load(file, encoding='latin1')
 except FileNotFoundError as e:
     st.error(f"❌ Error: {e}")
     st.error("Required model files (loan_model.pkl, scaler.pkl, encoder.pkl) not found. Please ensure they are in the same directory as app.py")
     st.stop()
-
-
-
+except (pickle.UnpicklingError, EOFError, AttributeError) as e:
+    st.error(f"❌ Pickle Error: {type(e).__name__}")
+    st.error("The model files are corrupted or incompatible. Please retrain the model using train.py")
+    st.stop()
+except Exception as e:
+    st.error(f"❌ Unexpected Error: {type(e).__name__}: {e}")
+    st.error("Please check the logs for more details")
+    st.stop()
 
 # App title
 st.title("🏦 Loan Approval Prediction")
