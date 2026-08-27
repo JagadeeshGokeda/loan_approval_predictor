@@ -25,6 +25,7 @@ st.write("Enter the applicant details below.")
 no_of_dependents = st.selectbox(
     "Number of Dependents",
     [0, 1, 2, 3, 4, 5]
+)
 
 education = st.selectbox(
     "Education",
