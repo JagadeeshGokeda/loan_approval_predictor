@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
-
-
 import os
+
+
 # Get the directory of the current script
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,6 +30,7 @@ except Exception as e:
     st.error(f"❌ Unexpected Error: {type(e).__name__}: {e}")
     st.error("Please check the logs for more details")
     st.stop()
+
 
 # App title
 st.title("🏦 Loan Approval Prediction")
